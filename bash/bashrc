@@ -1,0 +1,79 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+alias ls='ls --color=auto'
+
+# original prompt
+#PS1='[\u@\h \W]\$ '
+
+# custom prompt 1
+#PS1='\
+#\[\e[100m\e[30m\]\
+#$(pwd)\
+#\[\e[0m\]\
+#\
+#\n\
+#\
+#\[\e[94m\e[2m\]\
+#$(date +%T)\
+#\[\e[0m\]\
+#\
+#\[\e[92m\]\
+# $\
+#\[\e[0m\] \
+#\
+#'
+
+# custom prompt 2
+TTY=$(tty)
+F=$(cut -d '=' -f2 <<< $(loginctl show-session $(head -n1<<<$(loginctl session-status) | awk '{print $1}') | grep TTY))
+PS1='\
+\n\
+\
+\[\e[2m\e[1m\e[37m\]\
+$USER@$HOSTNAME \
+\[\e[0m\]\
+\[\e[1m\]\
+> \
+\[\e[0m\]\
+\[\e[1m\e[90m\]\
+$F\
+\[\e[0m\]\
+\[\e[1m\]\
+ > \
+\[\e[0m\]\
+\[\e[1m\]\e[2m\]\e[90m\]\
+${TTY:5}\
+\[\e[0m\]\
+\
+\n\
+\
+\[\e[1m\]\
+├─\
+\[\e[0m\]\e[100m\]\
+$(pwd)\
+\[\e[0m\]\
+\[\e[1m\]\
+ |\
+\[\e[0m\]\
+\[\e[1m\]\
+ $(stat -c%A $(pwd)) \
+\[\e[0m\]\
+\
+\n\
+\
+\[\e[1m\]\
+└─\
+\[\e[0m\]\
+\[\e[2m\]\
+$(date +%T)\
+\[\e[0m\]\
+\[\e[1m\]\
+ $ \
+\[\e[0m\]\
+\
+'
